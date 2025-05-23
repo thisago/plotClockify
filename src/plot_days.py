@@ -8,19 +8,27 @@ def prepare_day_data(rows):
     """Prepares day labels and data for plotting."""
     days = {}
     for row in rows:
+        email = row["Email"]
+        if email not in days:
+            days[email] = {}
         day = row["Start Date"]
         try:
             duration = float(row["Duration (decimal)"])
-            if day not in days:
-                days[day] = 0
-            days[day] += duration
+            if day not in days[email]:
+                days[email][day] = 0
+            if day not in days[email]:
+                days[email][day] = 0
+            days[email][day] += duration
         except ValueError:
             print(f"Skipping invalid duration value: {row['Duration (decimal)']}")
 
-    labels = list(days.keys())
-    # Prepare data as a list of single values (total duration per day)
-    data = [[days[label]] for label in labels]
-    return labels, data
+    labels = list(set(day for email_days in days.values() for day in email_days.keys()))
+    stack_labels = list(days.keys())
+    data = [
+        [days[email].get(day, 0) for day in labels]
+        for email in stack_labels
+    ]
+    return labels, data, stack_labels
 
 
 # Main script
@@ -30,5 +38,5 @@ if len(sys.argv) < 2:
 
 csv_file = sys.argv[1]
 rows = read_csv(csv_file)
-labels, data = prepare_day_data(rows)
-plot_box(labels, data, "Daily Duration Distribution", "Days", "Total Duration (hours)")
+labels, data, stack_labels = prepare_day_data(rows)
+plot_box(labels, data, stack_labels, "Daily Duration Distribution", "Days", "Total Duration (hours)")
