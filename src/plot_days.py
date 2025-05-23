@@ -2,6 +2,7 @@
 
 import sys
 from plot import read_csv, plot_box
+from datetime import datetime
 
 
 def prepare_day_data(rows):
@@ -23,9 +24,25 @@ def prepare_day_data(rows):
             print(f"Skipping invalid duration value: {row['Duration (decimal)']}")
 
     labels = list(set(day for email_days in days.values() for day in email_days.keys()))
+    valid_labels = []
+    for day in labels:
+        try:
+            try:
+                valid_labels.append(f"{day} ({datetime.strptime(day, '%m/%d/%Y').strftime('%a')})")
+            except ValueError:
+                try:
+                    valid_labels.append(f"{day} ({datetime.strptime(day, '%d/%m/%Y').strftime('%a')})")
+                except ValueError:
+                    print(f"Skipping invalid date value: {day}")
+        except ValueError:
+            print(f"Skipping invalid date value: {day}")
+    labels = sorted(valid_labels, key=lambda x: datetime.strptime(x.split(" ")[0], '%d/%m/%Y'))
     stack_labels = list(days.keys())
     data = [
-        [days[email].get(day, 0) for day in labels]
+        [
+            days[email].get(day.split(" ")[0], 0)  # Use only the date part of the label
+            for day in labels
+        ]
         for email in stack_labels
     ]
     return labels, data, stack_labels
