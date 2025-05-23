@@ -18,8 +18,8 @@ def prepare_day_data(rows):
             print(f"Skipping invalid duration value: {row['Duration (decimal)']}")
 
     labels = list(days.keys())
-    # Ensure all data lists have at least five elements by padding with the same value
-    data = [[days[label]] * 5 for label in labels]
+    # Prepare data as a list of single values (total duration per day)
+    data = [[days[label]] for label in labels]
     return labels, data
 
 

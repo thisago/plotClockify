@@ -17,7 +17,7 @@ def read_csv(csv_file):
 def plot_box(labels, data, title, xlabel, ylabel):
     """Plots a box plot with the given labels and data."""
     if all(len(d) > 0 for d in data):
-        plt.box(labels, data, width=0.3, quintuples=True, orientation="vertical")
+        plt.bar(labels, [sum(d) for d in data], width=0.3, orientation="vertical")
     else:
         print("No valid data to plot.")
         sys.exit(1)

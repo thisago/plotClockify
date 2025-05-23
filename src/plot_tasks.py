@@ -18,14 +18,8 @@ def prepare_task_data(rows):
             print(f"Skipping invalid duration value: {row['Duration (decimal)']}")
 
     labels = [label for label in tasks.keys() if len(tasks[label]) > 0]
-    data = [
-        (
-            tasks[label] + [tasks[label][-1]] * (5 - len(tasks[label]))
-            if len(tasks[label]) < 5
-            else tasks[label]
-        )
-        for label in labels
-    ]
+    # Prepare data as a list of single values (total duration per task)
+    data = [[sum(tasks[label])] for label in labels]
     return labels, data
 
 
