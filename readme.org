@@ -2,7 +2,7 @@
 
 * Example
 ** Days
-#+begin_src bash :results file link
+#+begin_src bash :results file link :exports both
 out="images/days.svg"
 make run-days | \
   freeze -o "$out" > /dev/null && \
@@ -13,7 +13,7 @@ echo -n "$out"
 [[file:images/days.svg]]
 
 ** Tasks
-#+begin_src bash :results file link
+#+begin_src bash :results file link :exports both
 out="images/tasks.svg"
 make run-tasks | \
   freeze -o "$out" > /dev/null && \
