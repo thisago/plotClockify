@@ -1,1 +1,24 @@
 #+title: Plot Clockify Report
+
+* Example
+** Days
+#+begin_src bash :results file link
+out="images/days.svg"
+make run-days | \
+  freeze -o "$out" > /dev/null && \
+echo -n "$out"
+#+end_src
+
+#+RESULTS:
+[[file:images/days.svg]]
+
+** Tasks
+#+begin_src bash :results file link
+out="images/tasks.svg"
+make run-tasks | \
+  freeze -o "$out" > /dev/null && \
+echo -n "$out"
+#+end_src
+
+#+RESULTS:
+[[file:images/tasks.svg]]
