@@ -9,17 +9,17 @@ def prepare_day_data(rows):
     """Prepares day labels and data for plotting."""
     days = {}
     for row in rows:
-        email = row["Email"]
-        if email not in days:
-            days[email] = {}
+        project = row["Project"]
+        if project not in days:
+            days[project] = {}
         day = row["Start Date"]
         try:
             duration = float(row["Duration (decimal)"])
-            if day not in days[email]:
-                days[email][day] = 0
-            if day not in days[email]:
-                days[email][day] = 0
-            days[email][day] += duration
+            if day not in days[project]:
+                days[project][day] = 0
+            if day not in days[project]:
+                days[project][day] = 0
+            days[project][day] += duration
         except ValueError:
             print(f"Skipping invalid duration value: {row['Duration (decimal)']}")
 
